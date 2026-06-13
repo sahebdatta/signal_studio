@@ -1418,8 +1418,9 @@ export default function App() {
       <style>{css}
         @keyframes spin {"{ from{transform:rotate(0deg)} to{transform:rotate(360deg)} }"}
       </style>
-      <div style={{ minHeight: "100vh", background: C.bg, paddingBottom: 40 }}>
-        <div style={{ borderBottom: `1px solid ${C.border}`, background: C.surface, padding: "0 24px", display: "flex", alignItems: "center" }}>
+      <div style={{ minHeight: "100vh", background: C.bg, display: "flex", flexDirection: "column" }}>
+      
+        <div style={{ borderBottom: `1px solid ${C.border}`, background: C.surface, padding: "0 24px", display: "flex", alignItems: "center", flexgrow: 1 }}>
           <div style={{ padding: "14px 0", marginRight: 32 }}>
             <span style={{ fontWeight: 700, fontSize: 15, letterSpacing: "-0.02em" }}>Signal</span>
             <span style={{ fontWeight: 300, fontSize: 15, color: C.textMuted }}> Studio</span>
@@ -1444,9 +1445,12 @@ export default function App() {
             <span style={{ fontSize: 12, color: C.textMuted, fontFamily: "IBM Plex Mono,monospace" }}>v1.0.0</span>
           </div>
         </div>
+   
         <div style={{ maxWidth: 900, margin: "0 auto", padding: "24px 20px" }}>
           {section === "signal" ? <SignalConfigurator /> : <SoftSensorBuilder />}
         </div>
+      
+      
       <Footer />
 
       </div>
