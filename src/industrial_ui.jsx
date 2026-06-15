@@ -547,6 +547,18 @@ function SourceModal({ groupId, existing, onClose, onSaved }) {
   const [unit, setUnit] = useState(
     Object.fromEntries((existing?.variables || []).map(v => [v.tag, v.unit || ""]))
   );
+  const [alarm_low, setAlarmLow] = useState(
+    Object.fromEntries((existing?.variables || []).map(v => [v.tag, v.alarm_low || 0]))
+  );
+  const [alarm_high, setAlarmHigh] = useState(
+    Object.fromEntries((existing?.variables || []).map(v => [v.tag, v.alarm_high || 0]))
+  );
+  const [warning_low, setWarningLow] = useState(
+    Object.fromEntries((existing?.variables || []).map(v => [v.tag, v.warning_low || 0]))
+  );
+  const [warning_high, setWarningHigh] = useState(
+    Object.fromEntries((existing?.variables || []).map(v => [v.tag, v.warning_high || 0]))
+  );
   const [liveValues, setLiveValues] = useState({});
 
   // Live values via WebSocket while on browse step
@@ -598,6 +610,10 @@ function SourceModal({ groupId, existing, onClose, onSaved }) {
         description: descs[n.node_id] || "",
         data_type: n.data_type,
         unit: unit[n.node_id] || "",
+        alarm_low: parseFloat(alarm_low[n.node_id]) || 0,
+        alarm_high: parseFloat(alarm_high[n.node_id]) || 0,
+        warning_low: parseFloat(warning_low[n.node_id]) || 0,
+        warning_high: parseFloat(warning_high[n.node_id]) || 0,
       })),
     };
     let saved;
@@ -742,9 +758,9 @@ function SourceModal({ groupId, existing, onClose, onSaved }) {
       {step === 3 && (
         <div className="fade-in">
           <div style={{ fontSize: 12, color: C.textMuted, marginBottom: 14 }}>
-            Assign human-readable names and descriptions to each selected variable.
+            Assign human-readable names, descriptions and limits to each selected variable.
           </div>
-          <div style={{ maxHeight: 340, overflowY: "auto" }}>
+          <div style={{ maxHeight: 400, overflowY: "auto" }}>
             {selectedArray.map(n => (
               <Card key={n.node_id} style={{ marginBottom: 10, padding: "12px 14px" }}>
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
@@ -770,6 +786,36 @@ function SourceModal({ groupId, existing, onClose, onSaved }) {
                     <input value={unit[n.node_id] || ""} onChange={e => setUnit(u => ({ ...u, [n.node_id]: e.target.value }))} placeholder="" />
                   </div>
                 </div>
+                <div style={{ height: 2, background: C.border, margin: "2px 0" }} />
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 60 }}>
+                  <div>
+                    {/* <label>alarm low</label> */}
+                    <input style={{textAlign: "center"}} value={alarm_low[n.node_id] || 0} onChange={e => setAlarmLow(a => ({ ...a, [n.node_id]: e.target.value }))} />
+                  </div>
+                  <div>
+                    {/* <label>warning low</label> */}
+                    <input style={{textAlign: "center"}} value={warning_low[n.node_id] || 0} onChange={e => setWarningLow(w => ({ ...w, [n.node_id]: e.target.value }))} />
+                  </div>
+                  <div>
+                    {/* <label>warning high</label> */}
+                    <input style={{textAlign: "center"}} value={warning_high[n.node_id] || 0} onChange={e => setWarningHigh(w => ({ ...w, [n.node_id]: e.target.value }))} />
+                  </div>
+                  <div>
+                    {/* <label>alarm high</label> */}
+                    <input style={{textAlign: "center"}} value={alarm_high[n.node_id] || 0} onChange={e => setAlarmHigh(a => ({ ...a, [n.node_id]: e.target.value }))} />
+                  </div>
+                </div>
+                <svg height="10" width={"100%"}>
+                  <line x1="0" y1="5" x2="50" y2="5" stroke="red" strokeWidth="3" />
+                  <line x1="50" y1="-10" x2="50" y2="10" stroke="red" strokeWidth="4" />
+                  <line x1="55" y1="5" x2="220" y2="5" stroke="yellow" strokeWidth="3" />
+                  <line x1="220" y1="-10" x2="220" y2="10" stroke="yellow" strokeWidth="4" />
+                  <line x1="225" y1="5" x2="375" y2="5" stroke="green" strokeWidth="3" />
+                  <line x1="380" y1="-10" x2="380" y2="10" stroke="yellow" strokeWidth="4" />
+                  <line x1="380" y1="5" x2="545" y2="5" stroke="yellow" strokeWidth="3" />
+                  <line x1="550" y1="-10" x2="550" y2="10" stroke="red" strokeWidth="4" />
+                  <line x1="550" y1="5" x2="600" y2="5" stroke="red" strokeWidth="3" />
+                </svg>
               </Card>
             ))}
           </div>
