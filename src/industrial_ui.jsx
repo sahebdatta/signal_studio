@@ -5,8 +5,10 @@ import Footer from "./Footer/Footer";
 //  CONFIG — change BASE_URL and WS_URL to point at your backend
 // ═══════════════════════════════════════════════════════════════════════════
 
-const BASE_URL = "http://localhost:8000/api/v1";
-const WS_URL = "ws://localhost:8000/ws";
+// const BASE_URL = "http://0.0.0.0:8000/api/v1";
+// const WS_URL = "ws://0.0.0.0:8000/ws";
+const BASE_URL = "/api/v1";
+const WS_URL = "/ws";
 
 // ═══════════════════════════════════════════════════════════════════════════
 //  API CLIENT  — thin wrapper around fetch with auth header + error handling
